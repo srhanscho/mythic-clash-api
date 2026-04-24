@@ -1,8 +1,8 @@
 # Mythic Clash API
 
-API REST construida con **Python, Flask y SQLite** para gestionar personajes de un juego RPG y simular batallas estratégicas entre ellos.
+Mythic Clash API es una API REST construida con **Python, Flask y SQLite** para gestionar personajes de un juego RPG y simular batallas estratégicas entre ellos.
 
-Proyecto académico orientado al aprendizaje de APIs REST, operaciones CRUD y lógica de negocio aplicada.
+Este proyecto fue desarrollado con fines académicos para practicar conceptos de backend, APIs REST, operaciones CRUD, persistencia de datos y lógica de negocio.
 
 ---
 
@@ -10,7 +10,7 @@ Proyecto académico orientado al aprendizaje de APIs REST, operaciones CRUD y l�
 
 ```text
 mythic-clash-api/
-│
+├── README.md
 ├── requirements.txt
 └── src/
     ├── main.py
@@ -35,11 +35,11 @@ mythic-clash-api/
 
 | Capa | Responsabilidad |
 |---|---|
-| `routes` | Recibe solicitudes HTTP y retorna respuestas JSON |
-| `service` | Aplica validaciones y reglas de negocio |
-| `repository` | Gestiona el acceso directo a la base de datos |
-| `logic` | Ejecuta cálculos puros del sistema de batalla |
-| `utils` | Contiene funciones auxiliares reutilizables |
+| `routes` | Recibe solicitudes HTTP y retorna respuestas JSON. |
+| `service` | Aplica validaciones y reglas de negocio. |
+| `repository` | Gestiona el acceso directo a la base de datos. |
+| `logic` | Ejecuta los cálculos del sistema de batalla. |
+| `utils` | Contiene funciones auxiliares reutilizables. |
 
 ---
 
@@ -55,12 +55,16 @@ mythic-clash-api/
 
 ## Instalación y ejecución
 
-### 1. Clonar o descargar el proyecto
+### 1. Clonar el repositorio
 
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/srhanscho/mythic-clash-api.git
 cd mythic-clash-api
 ```
+
+> Si el proyecto está dentro de una carpeta interna llamada `mythic-clash-api`, entra a esa carpeta antes de ejecutar los comandos.
+
+---
 
 ### 2. Crear entorno virtual
 
@@ -80,11 +84,15 @@ Activar en Linux/Mac:
 source venv/bin/activate
 ```
 
+---
+
 ### 3. Instalar dependencias
 
 ```bash
 pip install -r requirements.txt
 ```
+
+---
 
 ### 4. Ejecutar la API
 
@@ -109,7 +117,7 @@ La base de datos `database.db` se crea automáticamente al iniciar la aplicació
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/` | Retorna información general de la API |
+| GET | `/` | Retorna información general de la API. |
 
 ---
 
@@ -123,13 +131,32 @@ Base path:
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| GET | `/characters` | Lista todos los personajes |
-| GET | `/characters/<id>` | Consulta un personaje por ID |
-| POST | `/characters` | Crea un nuevo personaje |
-| PUT | `/characters/<id>` | Actualiza un personaje existente |
-| DELETE | `/characters/<id>` | Elimina un personaje |
+| GET | `/characters` | Lista todos los personajes. |
+| GET | `/characters/<id>` | Consulta un personaje por ID. |
+| POST | `/characters` | Crea un nuevo personaje. |
+| PUT | `/characters/<id>` | Actualiza un personaje existente. |
+| DELETE | `/characters/<id>` | Elimina un personaje. |
 
-### Modelo de personaje
+---
+
+## Modelo de personaje
+
+Cada personaje contiene los siguientes campos:
+
+| Campo | Tipo | Descripción |
+|---|---|---|
+| `id` | Integer | Identificador único del personaje. |
+| `name` | String | Nombre del personaje. |
+| `skin_color` | String | Color de piel del personaje. |
+| `race` | String | Raza del personaje. |
+| `strength` | Integer | Nivel de fuerza. |
+| `agility` | Integer | Nivel de agilidad. |
+| `magic` | Integer | Nivel de magia. |
+| `knowledge` | Integer | Nivel de conocimiento. |
+
+Las estadísticas deben ser números enteros entre `0` y `100`.
+
+Ejemplo:
 
 ```json
 {
@@ -143,8 +170,6 @@ Base path:
   "knowledge": 70
 }
 ```
-
-Las estadísticas deben ser números enteros entre `0` y `100`.
 
 ---
 
@@ -329,9 +354,17 @@ Base path:
 
 | Método | Ruta | Descripción |
 |---|---|---|
-| POST | `/battle` | Ejecuta una batalla entre dos personajes |
+| POST | `/battle` | Ejecuta una batalla entre dos personajes. |
+
+---
+
+## Ejecutar batalla
 
 ### Request
+
+```http
+POST /battle
+```
 
 ```json
 {
@@ -368,11 +401,11 @@ Base path:
         "id": 2,
         "name": "Theron",
         "race": "Human",
-        "score": 69.3
+        "score": 64.25
       },
       "scores": {
         "Kael": 83.0,
-        "Theron": 69.3
+        "Theron": 64.25
       },
       "victory_type": "Arcane Power",
       "tie_broken_by": null,
@@ -412,11 +445,11 @@ score = (strength * 0.35) + (agility * 0.25) + (magic * 0.25) + (knowledge * 0.1
 
 | Tipo | Criterio |
 |---|---|
-| `Brute Force` | Ventaja dominante en fuerza |
-| `Arcane Power` | Ventaja dominante en magia |
-| `Swift Strike` | Ventaja dominante en agilidad |
-| `Tactical Victory` | Ventaja dominante en conocimiento |
-| `Balanced Win` | Sin ventaja estadística clara |
+| `Brute Force` | Ventaja dominante en fuerza. |
+| `Arcane Power` | Ventaja dominante en magia. |
+| `Swift Strike` | Ventaja dominante en agilidad. |
+| `Tactical Victory` | Ventaja dominante en conocimiento. |
+| `Balanced Win` | Sin ventaja estadística clara. |
 
 ### Reglas de desempate
 
@@ -427,56 +460,60 @@ Si ambos personajes obtienen el mismo puntaje:
 
 ---
 
-## Ejemplos de prueba con curl
+## Ejemplos de prueba con PowerShell
 
 ### Crear personaje
 
-```bash
-curl -X POST http://127.0.0.1:5000/characters \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Kael","skin_color":"pale","race":"Elf","strength":60,"agility":80,"magic":90,"knowledge":70}'
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"name":"Kael","skin_color":"pale","race":"Elf","strength":60,"agility":80,"magic":90,"knowledge":70}' | ConvertTo-Json -Depth 10
 ```
 
 ### Crear segundo personaje
 
-```bash
-curl -X POST http://127.0.0.1:5000/characters \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Theron","skin_color":"fair","race":"Human","strength":75,"agility":65,"magic":45,"knowledge":70}'
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"name":"Theron","skin_color":"fair","race":"Human","strength":75,"agility":65,"magic":45,"knowledge":70}' | ConvertTo-Json -Depth 10
 ```
 
 ### Listar personajes
 
-```bash
-curl http://127.0.0.1:5000/characters
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters" -Method GET | ConvertTo-Json -Depth 10
 ```
 
 ### Consultar personaje por ID
 
-```bash
-curl http://127.0.0.1:5000/characters/1
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters/1" -Method GET | ConvertTo-Json -Depth 10
 ```
 
 ### Actualizar personaje
 
-```bash
-curl -X PUT http://127.0.0.1:5000/characters/1 \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Kael","skin_color":"pale","race":"Elf","strength":65,"agility":82,"magic":95,"knowledge":75}'
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters/1" `
+  -Method PUT `
+  -ContentType "application/json" `
+  -Body '{"name":"Kael","skin_color":"pale","race":"Elf","strength":65,"agility":82,"magic":95,"knowledge":75}' | ConvertTo-Json -Depth 10
 ```
 
 ### Ejecutar batalla
 
-```bash
-curl -X POST http://127.0.0.1:5000/battle \
-  -H "Content-Type: application/json" \
-  -d '{"character1_id":1,"character2_id":2}'
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/battle" `
+  -Method POST `
+  -ContentType "application/json" `
+  -Body '{"character1_id":1,"character2_id":2}' | ConvertTo-Json -Depth 10
 ```
 
 ### Eliminar personaje
 
-```bash
-curl -X DELETE http://127.0.0.1:5000/characters/1
+```powershell
+Invoke-RestMethod -Uri "http://127.0.0.1:5000/characters/1" -Method DELETE | ConvertTo-Json -Depth 10
 ```
 
 ---
@@ -485,13 +522,13 @@ curl -X DELETE http://127.0.0.1:5000/characters/1
 
 | Código | Significado |
 |---|---|
-| `200` | Operación exitosa |
-| `201` | Recurso creado |
-| `400` | Datos inválidos o incompletos |
-| `404` | Recurso no encontrado |
-| `405` | Método HTTP no permitido |
-| `409` | Conflicto por datos duplicados |
-| `500` | Error interno del servidor |
+| `200` | Operación exitosa. |
+| `201` | Recurso creado. |
+| `400` | Datos inválidos o incompletos. |
+| `404` | Recurso no encontrado. |
+| `405` | Método HTTP no permitido. |
+| `409` | Conflicto por datos duplicados. |
+| `500` | Error interno del servidor. |
 
 ---
 
@@ -523,7 +560,11 @@ curl -X DELETE http://127.0.0.1:5000/characters/1
 
 La API permite:
 
-- Crear, consultar, actualizar y eliminar personajes RPG.
+- Crear personajes RPG.
+- Listar personajes registrados.
+- Consultar personajes por ID.
+- Actualizar personajes existentes.
+- Eliminar personajes.
 - Validar datos de entrada.
 - Almacenar información en SQLite.
 - Ejecutar batallas entre dos personajes existentes.
@@ -533,7 +574,13 @@ La API permite:
 
 ---
 
+## Estado del proyecto
+
+Proyecto funcional para fines académicos.
+
+---
+
 ## Autor
 
-Han's de Ávila Sánchez
+Han's De Ávila Sánchez
 2026
